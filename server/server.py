@@ -86,3 +86,6 @@ def search_post():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5050, debug=True)
+
+
+# python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python server.py

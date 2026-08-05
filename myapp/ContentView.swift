@@ -1,4 +1,5 @@
 import AppIntents
+import SwiftData
 import SwiftUI
 
 enum NavigationPage: Hashable {
@@ -8,13 +9,16 @@ enum NavigationPage: Hashable {
 }
 
 @main struct MyApp: App {
+    init() {
+        let manager = CalendarManager.shared
+        AppDependencyManager.shared.add(dependency: manager)
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .task {
-                    ItineraryShortcut.updateAppShortcutParameters()
-                }
         }
+        .modelContainer(CalendarManager.shared.modelContainer)
     }
 }
 

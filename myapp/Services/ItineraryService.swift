@@ -35,11 +35,15 @@ struct ItineraryService {
         defaults.set(query, forKey: "lastItineraryQuery")
     }
 
+    @MainActor
     func saveFlightBooking(_ booking: FlightBooking) {
         guard let data = try? JSONEncoder().encode(booking) else { return }
         defaults.set(data, forKey: "flightBooking")
         // Also mirror to standard defaults so App Intents can read without App Group.
         UserDefaults.standard.set(data, forKey: "flightBooking")
+        
+        let manager = CalendarManager.shared
+        _ = try? manager.createCalendar(title: "Bookings \(booking.fromCity.name) \(booking.toCity.name)"  )
     }
 
     func getFlightBooking() -> FlightBooking? {
