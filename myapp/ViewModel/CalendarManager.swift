@@ -183,33 +183,33 @@ final class CalendarManager {
         }
 
         // Donate the intent so Siri can learn from UI actions.
-        if donateIntent {
-            let intent = CreateEventIntent()
-            intent.title = event.title
-            intent.startDate = event.startDate
-            intent.endDate = event.endDate
-            intent.isAllDay = event.isAllDay
-            intent.calendar = event.calendar.entity
-            intent.attendees = event.attendees.map(\.entity)
-            if let recurrence = event.recurrence {
-                intent.recurrence = recurrence.toRecurrenceRule(interval: event.recurrenceInterval)
-            }
-            if let note = event.note {
-                intent.note = AttributedString(note)
-            }
-            if let lat = event.locationLatitude, let lon = event.locationLongitude {
-                let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                intent.location = .place(PlaceDescriptor(
-                    representations: [.address(event.location ?? ""), .coordinate(coordinate)],
-                    commonName: event.location
-                ))
-            } else if let location = event.location {
-                intent.location = .address(location)
-            }
-            Task {
-                try? await IntentDonationManager.shared.donate(intent: intent)
-            }
-        }
+//        if donateIntent {
+//            let intent = CreateEventIntent()
+//            intent.title = event.title
+//            intent.startDate = event.startDate
+//            intent.endDate = event.endDate
+//            intent.isAllDay = event.isAllDay
+//            intent.calendar = event.calendar.entity
+//            intent.attendees = event.attendees.map(\.entity)
+//            if let recurrence = event.recurrence {
+//                intent.recurrence = recurrence.toRecurrenceRule(interval: event.recurrenceInterval)
+//            }
+//            if let note = event.note {
+//                intent.note = AttributedString(note)
+//            }
+//            if let lat = event.locationLatitude, let lon = event.locationLongitude {
+//                let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+//                intent.location = .place(PlaceDescriptor(
+//                    representations: [.address(event.location ?? ""), .coordinate(coordinate)],
+//                    commonName: event.location
+//                ))
+//            } else if let location = event.location {
+//                intent.location = .address(location)
+//            }
+//            Task {
+//                try? await IntentDonationManager.shared.donate(intent: intent)
+//            }
+//        }
 
         return event
     }
@@ -251,9 +251,9 @@ final class CalendarManager {
             try? await searchableIndex.indexAppEntities([event.entity])
         }
 
-        if donateIntent {
-            donateUpdateIntent(for: event)
-        }
+//        if donateIntent {
+//            donateUpdateIntent(for: event)
+//        }
     }
 
     /// Deletes an event, removes it from Spotlight, and donates the intent.
@@ -269,13 +269,13 @@ final class CalendarManager {
             )
         }
 
-        if donateIntent {
-            let intent = DeleteEventIntent()
-            intent.entity = event.entity
-            Task {
-                try? await IntentDonationManager.shared.donate(intent: intent)
-            }
-        }
+//        if donateIntent {
+//            let intent = DeleteEventIntent()
+//            intent.entity = event.entity
+//            Task {
+//                try? await IntentDonationManager.shared.donate(intent: intent)
+//            }
+//        }
     }
 
     /// Toggles an event's favorite status.
@@ -383,30 +383,30 @@ extension CalendarManager {
     }
     
     /// Donates an update intent that mirrors the event's current state.
-    func donateUpdateIntent(for event: EventModel) {
-        let intent = UpdateEventIntent()
-        intent.event = event.entity
-        intent.title = event.title
-        intent.startDate = event.startDate
-        intent.endDate = event.endDate
-        intent.isAllDay = event.isAllDay
-        intent.calendar = event.calendar.entity
-        intent.attendees = event.attendees.map(\.entity)
-        intent.note = event.note
-        if let recurrence = event.recurrence {
-            intent.recurrence = recurrence.toRecurrenceRule(interval: event.recurrenceInterval)
-        }
-        if let lat = event.locationLatitude, let lon = event.locationLongitude {
-            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-            intent.location = .place(PlaceDescriptor(
-                representations: [.address(event.location ?? ""), .coordinate(coordinate)],
-                commonName: event.location
-            ))
-        } else if let location = event.location {
-            intent.location = .address(location)
-        }
-        Task {
-            try? await IntentDonationManager.shared.donate(intent: intent)
-        }
-    }
+//    func donateUpdateIntent(for event: EventModel) {
+//        let intent = UpdateEventIntent()
+//        intent.event = event.entity
+//        intent.title = event.title
+//        intent.startDate = event.startDate
+//        intent.endDate = event.endDate
+//        intent.isAllDay = event.isAllDay
+//        intent.calendar = event.calendar.entity
+//        intent.attendees = event.attendees.map(\.entity)
+//        intent.note = event.note
+//        if let recurrence = event.recurrence {
+//            intent.recurrence = recurrence.toRecurrenceRule(interval: event.recurrenceInterval)
+//        }
+//        if let lat = event.locationLatitude, let lon = event.locationLongitude {
+//            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+//            intent.location = .place(PlaceDescriptor(
+//                representations: [.address(event.location ?? ""), .coordinate(coordinate)],
+//                commonName: event.location
+//            ))
+//        } else if let location = event.location {
+//            intent.location = .address(location)
+//        }
+//        Task {
+//            try? await IntentDonationManager.shared.donate(intent: intent)
+//        }
+//    }
 }
