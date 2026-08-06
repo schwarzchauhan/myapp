@@ -12,7 +12,7 @@ import SwiftUI
 /// In-app search: Siri re-runs the user's query inside myapp.
 @AppIntent(schema: .system.search)
 struct SearchFlightsIntent: ShowInAppSearchResultsIntent {
-    static var openAppWhenRun: Bool = false
+    static var openAppWhenRun: Bool = true
     static var searchScopes: [StringSearchScope] = [.general]
 
     var criteria: StringSearchCriteria
