@@ -9,6 +9,7 @@ import Foundation
 
 struct ItineraryService {
     static let showLatestBookingKey = "shouldShowLatestBooking"
+    static let pendingFlightSearchKey = "pendingFlightSearch"
 
     private let defaults: UserDefaults
     static let shared = ItineraryService()
@@ -31,6 +32,20 @@ struct ItineraryService {
         return true
     }
 
+    func setPendingFlightSearch(_ term: String) {
+        defaults.set(term, forKey: Self.pendingFlightSearchKey)
+        UserDefaults.standard.set(term, forKey: Self.pendingFlightSearchKey)
+    }
+
+    func consumePendingFlightSearch() -> String? {
+        let term = defaults.string(forKey: Self.pendingFlightSearchKey)
+            ?? UserDefaults.standard.string(forKey: Self.pendingFlightSearchKey)
+        guard let term, !term.isEmpty else { return nil }
+        defaults.removeObject(forKey: Self.pendingFlightSearchKey)
+        UserDefaults.standard.removeObject(forKey: Self.pendingFlightSearchKey)
+        return term
+    }
+
     func setItineraries(query: String) {
         defaults.set(query, forKey: "lastItineraryQuery")
     }
@@ -39,11 +54,12 @@ struct ItineraryService {
     func saveFlightBooking(_ booking: FlightBooking) {
         guard let data = try? JSONEncoder().encode(booking) else { return }
         defaults.set(data, forKey: "flightBooking")
-        // Also mirror to standard defaults so App Intents can read without App Group.
         UserDefaults.standard.set(data, forKey: "flightBooking")
-        
-        let manager = CalendarManager.shared
-        _ = try? manager.createCalendar(title: "Bookings \(booking.fromCity.name) \(booking.toCity.name)"  )
+
+        Task {
+            debugPrint(booking, "booking")
+            await FlightBookingIndexer.index(booking)
+        }
     }
 
     func getFlightBooking() -> FlightBooking? {

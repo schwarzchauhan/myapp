@@ -1,24 +1,20 @@
 import AppIntents
-import SwiftData
 import SwiftUI
 
 enum NavigationPage: Hashable {
     case page1
     case page2
-    case page3
+    case page3(search: String?)
 }
 
 @main struct MyApp: App {
-    init() {
-        let manager = CalendarManager.shared
-        AppDependencyManager.shared.add(dependency: manager)
-    }
-
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .task {
+                    await FlightBookingIndexer.reindexSavedBooking()
+                }
         }
-        .modelContainer(CalendarManager.shared.modelContainer)
     }
 }
 
@@ -49,7 +45,7 @@ struct ContentView: View {
                 .buttonStyle(.bordered)
 
                 Button("My Booking") {
-                    navigationPath.append(.page3)
+                    navigationPath.append(.page3(search: nil))
                 }
                 .buttonStyle(.borderedProminent)
             }
@@ -61,24 +57,25 @@ struct ContentView: View {
                     PageOneView()
                 case .page2:
                     PageTwoView()
-                case .page3:
-                    PageThreeView()
+                case .page3(let search):
+                    PageThreeView(searchTerm: search)
                 }
             }
         }
         .onAppear {
-            openLatestBookingIfNeeded()
+            openBookingIfNeeded()
         }
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
-                openLatestBookingIfNeeded()
+                openBookingIfNeeded()
             }
         }
     }
 
-    private func openLatestBookingIfNeeded() {
+    private func openBookingIfNeeded() {
         guard ItineraryService.shared.consumeOpenLatestBookingRequest() else { return }
-        navigationPath = [.page3]
+        let search = ItineraryService.shared.consumePendingFlightSearch()
+        navigationPath = [.page3(search: search)]
     }
 }
 
@@ -97,5 +94,3 @@ struct PageTwoView: View {
 #Preview {
     ContentView()
 }
-
-
