@@ -21,6 +21,16 @@ struct PageThreeView: View {
                     LabeledContent("Title") {
                         Text(event.title)
                     }
+                    if let fromCity = event.fromCity {
+                        LabeledContent("From") {
+                            Text(fromCity)
+                        }
+                    }
+                    if let toCity = event.toCity {
+                        LabeledContent("To") {
+                            Text(toCity)
+                        }
+                    }
                     LabeledContent("Calendar") {
                         Text(event.calendar.title)
                     }

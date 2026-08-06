@@ -71,6 +71,8 @@ struct ItineraryService {
                 title: "Upcoming Flight \(booking.fromCity.name) → \(booking.toCity.name)",
                 startDate: booking.departureDate,
                 endDate: nil,
+                fromCity: booking.fromCity.name,
+                toCity: booking.toCity.name,
                 calendar: calendarModel
             )
         }

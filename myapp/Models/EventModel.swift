@@ -26,6 +26,8 @@ final class EventModel {
     var title: String
     var startDate: Date
     var endDate: Date?
+    var fromCity: String?
+    var toCity: String?
     var isAllDay: Bool
     var note: String?
     var location: String?
@@ -62,6 +64,8 @@ final class EventModel {
         title: String,
         startDate: Date,
         endDate: Date? = nil,
+        fromCity: String? = nil,
+        toCity: String? = nil,
         isAllDay: Bool = false,
         note: String? = nil,
         location: String? = nil,
@@ -76,6 +80,8 @@ final class EventModel {
         self.title = title
         self.startDate = startDate
         self.endDate = endDate
+        self.fromCity = fromCity
+        self.toCity = toCity
         self.isAllDay = isAllDay
         self.note = note
         self.location = location
