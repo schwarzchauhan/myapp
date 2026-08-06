@@ -62,7 +62,7 @@ struct ItineraryService {
         }
         
         let calendarManager = CalendarManager.shared
-        _ = try? calendarManager.createCalendar(title: "\(booking.fromCity.name) → \(booking.toCity.name)", color: "Blue")
+        _ = try? calendarManager.createCalendar(title: "Upcoming Flights", color: "Blue")
         
         let calendarModels = try? calendarManager.fetchCalendars()
         

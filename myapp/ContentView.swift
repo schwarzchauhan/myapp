@@ -5,10 +5,11 @@ import SwiftData
 enum NavigationPage: Hashable {
     case page1
     case page2
-    case page3(search: String?)
+    case page3(search: UUID?)
 }
 
 @main struct MyApp: App {
+    
     
     init() {
         let manager = CalendarManager.shared
@@ -29,6 +30,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var navigationPath: [NavigationPage] = []
     let viewModel = ItineraryViewModel()
+    @State private var navigation = NavigationManager.shared
 
     var body: some View {
         NavigationStack(path: $navigationPath) {
@@ -64,25 +66,30 @@ struct ContentView: View {
                     PageOneView()
                 case .page2:
                     PageTwoView()
-                case .page3(let search):
-                    PageThreeView(searchTerm: search)
+                case .page3(let eventID):
+                    PageThreeView(searchTerm: eventID)
                 }
             }
         }
         .onAppear {
-            openBookingIfNeeded()
+            openSelectedEventIfNeeded()
         }
         .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
-                openBookingIfNeeded()
+                openSelectedEventIfNeeded()
             }
+        }
+        .onChange(of: navigation.selectedEventID) { _, eventID in
+            guard let eventID else { return }
+            navigationPath = [.page3(search: eventID)]
+            navigation.selectedEventID = nil
         }
     }
 
-    private func openBookingIfNeeded() {
-        guard ItineraryService.shared.consumeOpenLatestBookingRequest() else { return }
-        let search = ItineraryService.shared.consumePendingFlightSearch()
-        navigationPath = [.page3(search: search)]
+    private func openSelectedEventIfNeeded() {
+        guard let eventID = navigation.selectedEventID else { return }
+        navigationPath = [.page3(search: eventID)]
+        navigation.selectedEventID = nil
     }
 }
 

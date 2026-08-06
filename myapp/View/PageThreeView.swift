@@ -3,79 +3,94 @@
 //  myapp
 //
 
-import SwiftUI
+import SwiftUI 
 
 struct PageThreeView: View {
-    var searchTerm: String? = nil
+    /// Event id to show. `nil` = no event selected.
+    var searchTerm: UUID?
 
-    private var booking: FlightBooking? {
-        ItineraryService.shared.getFlightBooking()
-    }
-
-    private var matchesSearch: Bool {
-        guard let booking else { 
-            debugPrint("No booking found")
-            return false
-         }
-        guard let searchTerm, !searchTerm.isEmpty else { return true }
-        let q = searchTerm.lowercased()
-        let name = "Bookings \(booking.fromCity.name) \(booking.toCity.name)".lowercased()
-        return name.contains(q)
-            || booking.fromCity.name.lowercased().contains(q)
-            || booking.toCity.name.lowercased().contains(q)
-            || booking.fromCity.code.lowercased().contains(q)
-            || booking.toCity.code.lowercased().contains(q)
+    private var event: EventModel? {
+        guard let searchTerm else { return nil }
+        return try? CalendarManager.shared.fetchEvent(with: searchTerm)
     }
 
     var body: some View {
         Form {
-            if let searchTerm, !searchTerm.isEmpty {
-                Section("Search") {
-                    Text("Results for “\(searchTerm)”")
-                        .foregroundStyle(.secondary)
+            if let event {
+                Section("Event") {
+                    LabeledContent("Title") {
+                        Text(event.title)
+                    }
+                    LabeledContent("Calendar") {
+                        Text(event.calendar.title)
+                    }
+                    LabeledContent("Starts") {
+                        Text(event.startDate.formatted(date: .abbreviated, time: .shortened))
+                    }
+                    LabeledContent("Ends") {
+                        Text(event.endDate.formatted(date: .abbreviated, time: .shortened))
+                    }
+                    if event.isAllDay {
+                        LabeledContent("All day") {
+                            Text("Yes")
+                        }
+                    }
+                    if let location = event.location, !location.isEmpty {
+                        LabeledContent("Location") {
+                            Text(location)
+                        }
+                    }
+                    if let note = event.note, !note.isEmpty {
+                        LabeledContent("Notes") {
+                            Text(note)
+                        }
+                    }
+                    if event.isFavorite {
+                        LabeledContent("Favorite") {
+                            Image(systemName: "star.fill")
+                                .foregroundStyle(.yellow)
+                        }
+                    }
                 }
-            }
 
-            if let booking, matchesSearch {
-                Section("Latest booking") {
-                    LabeledContent("Name") {
-                        Text("Bookings \(booking.fromCity.name) \(booking.toCity.name)")
-                    }
-                    LabeledContent("From") {
-                        Text("\(booking.fromCity.name) (\(booking.fromCity.code))")
-                    }
-                    LabeledContent("To") {
-                        Text("\(booking.toCity.name) (\(booking.toCity.code))")
-                    }
-                    LabeledContent("Route") {
-                        Text("\(booking.fromCity.name) => \(booking.toCity.name)")
-                            .fontWeight(.semibold)
+                if !event.attendees.isEmpty {
+                    Section("Attendees") {
+                        ForEach(event.attendees, id: \.id) { attendee in
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(attendee.name)
+                                if !attendee.email.isEmpty {
+                                    Text(attendee.email)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                            }
+                        }
                     }
                 }
-            } else if booking != nil {
+            } else if searchTerm != nil {
                 Section {
                     ContentUnavailableView(
-                        "No match",
-                        systemImage: "magnifyingglass",
-                        description: Text("No booking matched “\(searchTerm ?? "")”.")
+                        "Event not found",
+                        systemImage: "calendar.badge.exclamationmark",
+                        description: Text("No event matches this id.")
                     )
                 }
             } else {
                 Section {
                     ContentUnavailableView(
-                        "No booking yet",
-                        systemImage: "airplane",
-                        description: Text("Book a flight on the Flight screen first.")
+                        "No event selected",
+                        systemImage: "calendar",
+                        description: Text("Open an event from Siri or pick one from your calendar.")
                     )
                 }
             }
         }
-        .navigationTitle("My Booking")
+        .navigationTitle(event?.title ?? "Event")
     }
 }
 
 #Preview {
     NavigationStack {
-        PageThreeView(searchTerm: "Indore")
+        PageThreeView(searchTerm: nil)
     }
 }
