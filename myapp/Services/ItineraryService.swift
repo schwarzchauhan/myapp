@@ -58,7 +58,21 @@ struct ItineraryService {
 
         Task {
             debugPrint(booking, "booking")
-            await FlightBookingIndexer.index(booking)
+//            await FlightBookingIndexer.index(booking)
+        }
+        
+        let calendarManager = CalendarManager.shared
+        _ = try? calendarManager.createCalendar(title: "\(booking.fromCity.name) → \(booking.toCity.name)", color: "Blue")
+        
+        let calendarModels = try? calendarManager.fetchCalendars()
+        
+        if let calendarModel = calendarModels?.first {
+            _ = try? calendarManager.createEvent(
+                title: "Upcoming Flight \(booking.fromCity.name) → \(booking.toCity.name)",
+                startDate: Date(),
+                endDate: Date(),
+                calendar: calendarModel
+            )
         }
     }
 

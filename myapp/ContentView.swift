@@ -1,5 +1,6 @@
 import AppIntents
 import SwiftUI
+import SwiftData
 
 enum NavigationPage: Hashable {
     case page1
@@ -8,13 +9,19 @@ enum NavigationPage: Hashable {
 }
 
 @main struct MyApp: App {
+    
+    init() {
+        let manager = CalendarManager.shared
+        AppDependencyManager.shared.add(dependency: manager)
+    }
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .task {
-                    await FlightBookingIndexer.reindexSavedBooking()
-                }
+//                .task {
+//                    await FlightBookingIndexer.reindexSavedBooking()
+//                }
         }
+        .modelContainer(CalendarManager.shared.modelContainer)
     }
 }
 
