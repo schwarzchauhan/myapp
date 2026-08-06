@@ -104,7 +104,9 @@ struct EventEntity: IndexedEntity, OwnershipProvidingEntity {
         self.calendar = event.calendar.entity
         self.title = event.title
         self.startDate = event.startDate
-        self.endDate = event.endDate
+        // The calendar schema requires an end date, while a flight booking may
+        // only have a departure time. Represent an unknown end as its start time.
+        self.endDate = event.endDate ?? event.startDate
         self.isAllDay = event.isAllDay
         self.recurrence = event.recurrence?.toRecurrenceRule(interval: event.recurrenceInterval)
         self.note = event.note.map { AttributedString($0) }

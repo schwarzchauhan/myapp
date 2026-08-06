@@ -25,7 +25,7 @@ final class EventModel {
 
     var title: String
     var startDate: Date
-    var endDate: Date
+    var endDate: Date?
     var isAllDay: Bool
     var note: String?
     var location: String?
@@ -61,7 +61,7 @@ final class EventModel {
     init(
         title: String,
         startDate: Date,
-        endDate: Date,
+        endDate: Date? = nil,
         isAllDay: Bool = false,
         note: String? = nil,
         location: String? = nil,

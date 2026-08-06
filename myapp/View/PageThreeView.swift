@@ -27,8 +27,10 @@ struct PageThreeView: View {
                     LabeledContent("Starts") {
                         Text(event.startDate.formatted(date: .abbreviated, time: .shortened))
                     }
-                    LabeledContent("Ends") {
-                        Text(event.endDate.formatted(date: .abbreviated, time: .shortened))
+                    if let endDate = event.endDate {
+                        LabeledContent("Ends") {
+                            Text(endDate.formatted(date: .abbreviated, time: .shortened))
+                        }
                     }
                     if event.isAllDay {
                         LabeledContent("All day") {

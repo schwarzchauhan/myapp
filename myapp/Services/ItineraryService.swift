@@ -69,8 +69,8 @@ struct ItineraryService {
         if let calendarModel = calendarModels?.first {
             _ = try? calendarManager.createEvent(
                 title: "Upcoming Flight \(booking.fromCity.name) → \(booking.toCity.name)",
-                startDate: Date(),
-                endDate: Date(),
+                startDate: booking.departureDate,
+                endDate: nil,
                 calendar: calendarModel
             )
         }

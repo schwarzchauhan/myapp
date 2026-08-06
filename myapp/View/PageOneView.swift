@@ -14,6 +14,7 @@ struct PageOneView: View {
     @State private var selectedToCity: City?
     @State private var fromSuggestions: [City] = []
     @State private var toSuggestions: [City] = []
+    @State private var departureDate = Date()
 
     private var canBook: Bool {
         selectedFromCity != nil && selectedToCity != nil
@@ -31,6 +32,15 @@ struct PageOneView: View {
                 selectedCity: $selectedToCity,
                 suggestions: $toSuggestions
             )
+
+            Section("Departure") {
+                DatePicker(
+                    "Flight departure",
+                    selection: $departureDate,
+                    in: Date()...,
+                    displayedComponents: [.date, .hourAndMinute]
+                )
+            }
         }
         .navigationTitle("Flight")
         .safeAreaInset(edge: .bottom) {
@@ -50,7 +60,11 @@ struct PageOneView: View {
         guard let fromCity = selectedFromCity,
               let toCity = selectedToCity else { return }
 
-        let booking = FlightBooking(fromCity: fromCity, toCity: toCity)
+        let booking = FlightBooking(
+            fromCity: fromCity,
+            toCity: toCity,
+            departureDate: departureDate
+        )
         ItineraryService.shared.saveFlightBooking(booking)
         dismiss()
     }

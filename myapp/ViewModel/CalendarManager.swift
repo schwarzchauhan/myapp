@@ -148,7 +148,7 @@ final class CalendarManager {
     func createEvent(
         title: String,
         startDate: Date,
-        endDate: Date,
+        endDate: Date? = nil,
         isAllDay: Bool = false,
         note: String? = nil,
         location: String? = nil,
@@ -306,7 +306,9 @@ extension CalendarManager {
     ) {
         event.title = title ?? event.title
         event.startDate = startDate ?? event.startDate
-        event.endDate = endDate ?? event.endDate
+        if let endDate {
+            event.endDate = endDate
+        }
         event.isAllDay = isAllDay ?? event.isAllDay
         event.locationLatitude = locationLatitude ?? event.locationLatitude
         event.locationLongitude = locationLongitude ?? event.locationLongitude
