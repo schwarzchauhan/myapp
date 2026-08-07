@@ -31,6 +31,16 @@ struct PageThreeView: View {
                             Text(toCity)
                         }
                     }
+                    if let departureTerminal = event.departureTerminal {
+                        LabeledContent("Departure terminal") {
+                            Text(departureTerminal)
+                        }
+                    }
+                    if let arrivalTerminal = event.arrivalTerminal {
+                        LabeledContent("Arrival terminal") {
+                            Text(arrivalTerminal)
+                        }
+                    }
                     LabeledContent("Calendar") {
                         Text(event.calendar.title)
                     }

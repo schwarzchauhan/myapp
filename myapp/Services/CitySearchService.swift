@@ -45,7 +45,7 @@ struct CitySearchService {
     static let shared = CitySearchService()
 
     /// Simulator / Mac: localhost. On a physical device, use your Mac's LAN IP.
-    private let baseURL = "http://10.106.105.49:5050"
+    private let baseURL = "http://10.106.105.30:5050"
 
     private init() {}
 

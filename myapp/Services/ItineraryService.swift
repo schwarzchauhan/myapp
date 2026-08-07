@@ -55,6 +55,7 @@ struct ItineraryService {
         guard let data = try? JSONEncoder().encode(booking) else { return }
         defaults.set(data, forKey: "flightBooking")
         UserDefaults.standard.set(data, forKey: "flightBooking")
+        let pnr = Self.makePNR()
 
         Task {
             debugPrint(booking, "booking")
@@ -73,9 +74,28 @@ struct ItineraryService {
                 endDate: nil,
                 fromCity: booking.fromCity.name,
                 toCity: booking.toCity.name,
+                departureTerminal: booking.departureTerminal,
+                arrivalTerminal: booking.arrivalTerminal,
+                note: "Reservation booking details\nPNR: \(pnr)\nDeparture: \(booking.departureTerminal)\nArrival: \(booking.arrivalTerminal)\nDeep link: mmyt://mytrips/flightdetails/\(pnr)",
                 calendar: calendarModel
             )
         }
+    }
+
+    /// Produces a six-character booking reference containing letters and digits.
+    private static func makePNR() -> String {
+        let letters = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        let digits = Array("0123456789")
+        let characters = letters + digits
+        let requiredCharacters = [
+            letters.randomElement()!,
+            digits.randomElement()!
+        ]
+        let remainingCharacters = (0..<4).map { _ in
+            characters.randomElement()!
+        }
+
+        return String((requiredCharacters + remainingCharacters).shuffled())
     }
 
     func getFlightBooking() -> FlightBooking? {

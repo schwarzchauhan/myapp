@@ -15,6 +15,10 @@ struct PageOneView: View {
     @State private var fromSuggestions: [City] = []
     @State private var toSuggestions: [City] = []
     @State private var departureDate = Date()
+    @State private var departureTerminal = "Terminal 1"
+    @State private var arrivalTerminal = "Terminal 1"
+
+    private let terminals = (1...10).map { "Terminal \($0)" }
 
     private var canBook: Bool {
         selectedFromCity != nil && selectedToCity != nil
@@ -40,6 +44,20 @@ struct PageOneView: View {
                     in: Date()...,
                     displayedComponents: [.date, .hourAndMinute]
                 )
+
+                Picker("Departure terminal", selection: $departureTerminal) {
+                    ForEach(terminals, id: \.self) { terminal in
+                        Text(terminal)
+                    }
+                }
+            }
+
+            Section("Arrival") {
+                Picker("Arrival terminal", selection: $arrivalTerminal) {
+                    ForEach(terminals, id: \.self) { terminal in
+                        Text(terminal)
+                    }
+                }
             }
         }
         .navigationTitle("Flight")
@@ -63,7 +81,9 @@ struct PageOneView: View {
         let booking = FlightBooking(
             fromCity: fromCity,
             toCity: toCity,
-            departureDate: departureDate
+            departureDate: departureDate,
+            departureTerminal: departureTerminal,
+            arrivalTerminal: arrivalTerminal
         )
         ItineraryService.shared.saveFlightBooking(booking)
         dismiss()

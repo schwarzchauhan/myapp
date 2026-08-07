@@ -3,8 +3,8 @@
 //  myapp
 //
 
-import AppIntents
-import Foundation
+//import AppIntents
+//import Foundation
 
 /// Indexed flight booking for Spotlight / Siri.
 //struct FlightBookingEntity: AppEntity, IndexedEntity {

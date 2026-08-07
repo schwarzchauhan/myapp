@@ -28,6 +28,8 @@ final class EventModel {
     var endDate: Date?
     var fromCity: String?
     var toCity: String?
+    var departureTerminal: String?
+    var arrivalTerminal: String?
     var isAllDay: Bool
     var note: String?
     var location: String?
@@ -66,6 +68,8 @@ final class EventModel {
         endDate: Date? = nil,
         fromCity: String? = nil,
         toCity: String? = nil,
+        departureTerminal: String? = nil,
+        arrivalTerminal: String? = nil,
         isAllDay: Bool = false,
         note: String? = nil,
         location: String? = nil,
@@ -82,6 +86,8 @@ final class EventModel {
         self.endDate = endDate
         self.fromCity = fromCity
         self.toCity = toCity
+        self.departureTerminal = departureTerminal
+        self.arrivalTerminal = arrivalTerminal
         self.isAllDay = isAllDay
         self.note = note
         self.location = location

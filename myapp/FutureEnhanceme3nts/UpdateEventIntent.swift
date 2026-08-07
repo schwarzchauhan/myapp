@@ -12,9 +12,9 @@ See the LICENSE.txt file for this sample's licensing information.
 Abstract:
 Implements the calendar domain's update-event schema.
 */
-import AppIntents
-import GeoToolbox
-import SwiftUI
+//import AppIntents
+//import GeoToolbox
+//import SwiftUI
 
 //@AppIntent(schema: .calendar.updateEvent)
 //struct UpdateEventIntent {
@@ -143,40 +143,40 @@ import SwiftUI
 //    }
 //}
 
-extension IntentPerson {
-    var resolvedDisplayName: String {
-        switch name {
-        case .displayName(let value):
-            return value
-        case .components(let components):
-            return PersonNameComponentsFormatter.localizedString(
-                from: components,
-                style: .default
-            )
-        case .unknown:
-            // Fall back to email / phone if name is unknown
-            return resolvedEmailAddress
-                ?? resolvedPhoneNumber
-                ?? "Unknown"
-        }
-    }
-
-    var resolvedEmailAddress: String? {
-        if case .emailAddress(let email) = handle?.value {
-            return email
-        }
-        for alias in aliases {
-            if case .emailAddress(let email) = alias.value {
-                return email
-            }
-        }
-        return nil
-    }
-
-    var resolvedPhoneNumber: String? {
-        if case .phoneNumber(let phone) = handle?.value {
-            return phone
-        }
-        return nil
-    }
-}
+//extension IntentPerson {
+//    var resolvedDisplayName: String {
+//        switch name {
+//        case .displayName(let value):
+//            return value
+//        case .components(let components):
+//            return PersonNameComponentsFormatter.localizedString(
+//                from: components,
+//                style: .default
+//            )
+//        case .unknown:
+//            // Fall back to email / phone if name is unknown
+//            return resolvedEmailAddress
+//                ?? resolvedPhoneNumber
+//                ?? "Unknown"
+//        }
+//    }
+//
+//    var resolvedEmailAddress: String? {
+//        if case .emailAddress(let email) = handle?.value {
+//            return email
+//        }
+//        for alias in aliases {
+//            if case .emailAddress(let email) = alias.value {
+//                return email
+//            }
+//        }
+//        return nil
+//    }
+//
+//    var resolvedPhoneNumber: String? {
+//        if case .phoneNumber(let phone) = handle?.value {
+//            return phone
+//        }
+//        return nil
+//    }
+//}

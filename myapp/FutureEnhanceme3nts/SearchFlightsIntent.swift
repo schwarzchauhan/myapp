@@ -6,8 +6,8 @@
 //  On this SDK the schema symbol is `.system.search` (ShowInAppSearchResultsIntent).
 //
 
-import AppIntents
-import SwiftUI
+//import AppIntents
+//import SwiftUI
 
 /// In-app search: Siri re-runs the user's query inside myapp.
 //@AppIntent(schema: .system.search)

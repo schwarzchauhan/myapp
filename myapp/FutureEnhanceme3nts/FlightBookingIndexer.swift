@@ -3,10 +3,10 @@
 //  myapp
 //
 
-import AppIntents
-import CoreSpotlight
-import Foundation
-import UniformTypeIdentifiers
+// import AppIntents
+// import CoreSpotlight
+// import Foundation
+// import UniformTypeIdentifiers
 
 //enum FlightBookingIndexer {
 //    /// Indexes a booking so Siri / Spotlight can find and talk about it.

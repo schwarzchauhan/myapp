@@ -9,4 +9,6 @@ struct FlightBooking: Codable, Hashable {
     let fromCity: City
     let toCity: City
     let departureDate: Date
+    let departureTerminal: String
+    let arrivalTerminal: String
 }
