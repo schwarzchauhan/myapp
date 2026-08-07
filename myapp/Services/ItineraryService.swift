@@ -56,6 +56,7 @@ struct ItineraryService {
         defaults.set(data, forKey: "flightBooking")
         UserDefaults.standard.set(data, forKey: "flightBooking")
         let pnr = Self.makePNR()
+        let bookingID = Self.makeBookingID()
 
         Task {
             debugPrint(booking, "booking")
@@ -71,7 +72,7 @@ struct ItineraryService {
             _ = try? calendarManager.createEvent(
                 title: "Upcoming Flight \(booking.fromCity.name) → \(booking.toCity.name)",
                 startDate: booking.departureDate,
-                endDate: nil,
+                endDate: booking.landingDate,
                 fromCity: booking.fromCity.name,
                 toCity: booking.toCity.name,
                 departureTerminal: booking.departureTerminal,
@@ -79,7 +80,10 @@ struct ItineraryService {
                 airlineName: booking.airlineName,
                 airlineCode: booking.airlineCode,
                 flightNumber: booking.flightNumber,
-                note: "Reservation booking details\nPNR: \(pnr)\nAirline: \(booking.airlineName) (\(booking.airlineCode))\nFlight: \(booking.flightNumber)\nDeparture: \(booking.departureTerminal)\nArrival: \(booking.arrivalTerminal)\nDeep link: mmyt://mytrips/flightdetails/\(pnr)",
+                bookingID: bookingID,
+                boardingTime: booking.boardingTime,
+                boardingGate: booking.boardingGate,
+                note: "Reservation booking details\nBooking ID: \(bookingID)\nPNR: \(pnr)\nAirline: \(booking.airlineName) (\(booking.airlineCode))\nFlight: \(booking.flightNumber)\nBoarding time: \(booking.boardingTime.formatted(date: .omitted, time: .shortened))\nBoarding gate: \(booking.boardingGate)\nDeparture: \(booking.departureTerminal)\nArrival: \(booking.arrivalTerminal)\nDeep link: mmyt://mytrips/flightdetails/\(pnr)",
                 calendar: calendarModel
             )
         }
@@ -99,6 +103,12 @@ struct ItineraryService {
         }
 
         return String((requiredCharacters + remainingCharacters).shuffled())
+    }
+
+    /// Produces a booking identifier such as `NF91135348678100`.
+    private static func makeBookingID() -> String {
+        let digits = (0..<14).map { _ in String(Int.random(in: 0...9)) }
+        return "NF" + digits.joined()
     }
 
     func getFlightBooking() -> FlightBooking? {

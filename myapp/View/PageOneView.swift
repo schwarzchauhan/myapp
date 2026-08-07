@@ -15,6 +15,9 @@ struct PageOneView: View {
     @State private var fromSuggestions: [City] = []
     @State private var toSuggestions: [City] = []
     @State private var departureDate = Date()
+    @State private var landingDate = Date().addingTimeInterval(60 * 60)
+    @State private var boardingTime = Date().addingTimeInterval(-30 * 60)
+    @State private var boardingGate = 1
     @State private var departureTerminal = "Terminal 1"
     @State private var arrivalTerminal = "Terminal 1"
     @State private var airlineName = "IndiGo"
@@ -54,6 +57,11 @@ struct PageOneView: View {
                     in: Date()...,
                     displayedComponents: [.date, .hourAndMinute]
                 )
+                .onChange(of: departureDate) { _, newDepartureDate in
+                    if landingDate < newDepartureDate {
+                        landingDate = newDepartureDate.addingTimeInterval(60 * 60)
+                    }
+                }
 
                 Picker("Departure terminal", selection: $departureTerminal) {
                     ForEach(terminals, id: \.self) { terminal in
@@ -63,6 +71,13 @@ struct PageOneView: View {
             }
 
             Section("Arrival") {
+                DatePicker(
+                    "Flight landing",
+                    selection: $landingDate,
+                    in: departureDate...,
+                    displayedComponents: [.date, .hourAndMinute]
+                )
+
                 Picker("Arrival terminal", selection: $arrivalTerminal) {
                     ForEach(terminals, id: \.self) { terminal in
                         Text(terminal)
@@ -89,6 +104,17 @@ struct PageOneView: View {
                     airlineName = airlines.first(where: { $0.code == code })?.name ?? ""
                 }
             }
+
+            Section("Boarding") {
+                DatePicker(
+                    "Boarding time",
+                    selection: $boardingTime,
+                    displayedComponents: .hourAndMinute
+                )
+
+                TextField("Boarding gate", value: $boardingGate, format: .number)
+                    .keyboardType(.numberPad)
+            }
         }
         .navigationTitle("Flight")
         .safeAreaInset(edge: .bottom) {
@@ -112,6 +138,9 @@ struct PageOneView: View {
             fromCity: fromCity,
             toCity: toCity,
             departureDate: departureDate,
+            landingDate: landingDate,
+            boardingTime: boardingTime,
+            boardingGate: boardingGate,
             departureTerminal: departureTerminal,
             arrivalTerminal: arrivalTerminal,
             airlineName: airlineName,

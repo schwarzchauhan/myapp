@@ -51,6 +51,21 @@ struct PageThreeView: View {
                             Text(flightNumber)
                         }
                     }
+                    if let bookingID = event.bookingID {
+                        LabeledContent("Booking ID") {
+                            Text(bookingID)
+                        }
+                    }
+                    if let boardingTime = event.boardingTime {
+                        LabeledContent("Boarding time") {
+                            Text(boardingTime.formatted(date: .omitted, time: .shortened))
+                        }
+                    }
+                    if let boardingGate = event.boardingGate {
+                        LabeledContent("Boarding gate") {
+                            Text("\(boardingGate)")
+                        }
+                    }
                     LabeledContent("Calendar") {
                         Text(event.calendar.title)
                     }
