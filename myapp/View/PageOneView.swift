@@ -17,8 +17,18 @@ struct PageOneView: View {
     @State private var departureDate = Date()
     @State private var departureTerminal = "Terminal 1"
     @State private var arrivalTerminal = "Terminal 1"
+    @State private var airlineName = "IndiGo"
+    @State private var airlineCode = "6E"
 
     private let terminals = (1...10).map { "Terminal \($0)" }
+    private let airlines = [
+        Airline(name: "IndiGo", code: "6E"),
+        Airline(name: "Air India", code: "AI"),
+        Airline(name: "AirAsia", code: "I5"),
+        Airline(name: "Akasa Air", code: "QP"),
+        Airline(name: "SpiceJet", code: "SG"),
+        Airline(name: "Vistara", code: "UK")
+    ]
 
     private var canBook: Bool {
         selectedFromCity != nil && selectedToCity != nil
@@ -59,6 +69,26 @@ struct PageOneView: View {
                     }
                 }
             }
+
+            Section("Airline") {
+                Picker("Airline name", selection: $airlineName) {
+                    ForEach(airlines) { airline in
+                        Text(airline.name).tag(airline.name)
+                    }
+                }
+                .onChange(of: airlineName) { _, name in
+                    airlineCode = airlines.first(where: { $0.name == name })?.code ?? ""
+                }
+
+                Picker("Airline code", selection: $airlineCode) {
+                    ForEach(airlines) { airline in
+                        Text(airline.code).tag(airline.code)
+                    }
+                }
+                .onChange(of: airlineCode) { _, code in
+                    airlineName = airlines.first(where: { $0.code == code })?.name ?? ""
+                }
+            }
         }
         .navigationTitle("Flight")
         .safeAreaInset(edge: .bottom) {
@@ -83,11 +113,25 @@ struct PageOneView: View {
             toCity: toCity,
             departureDate: departureDate,
             departureTerminal: departureTerminal,
-            arrivalTerminal: arrivalTerminal
+            arrivalTerminal: arrivalTerminal,
+            airlineName: airlineName,
+            airlineCode: airlineCode,
+            flightNumber: Self.makeFlightNumber(for: airlineCode)
         )
         ItineraryService.shared.saveFlightBooking(booking)
         dismiss()
     }
+
+    private static func makeFlightNumber(for airlineCode: String) -> String {
+        "\(airlineCode)-\(Int.random(in: 100...999))"
+    }
+}
+
+private struct Airline: Identifiable {
+    let name: String
+    let code: String
+
+    var id: String { code }
 }
 
 private struct CitySearchField: View {

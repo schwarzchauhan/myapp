@@ -30,6 +30,9 @@ final class EventModel {
     var toCity: String?
     var departureTerminal: String?
     var arrivalTerminal: String?
+    var airlineName: String?
+    var airlineCode: String?
+    var flightNumber: String?
     var isAllDay: Bool
     var note: String?
     var location: String?
@@ -70,6 +73,9 @@ final class EventModel {
         toCity: String? = nil,
         departureTerminal: String? = nil,
         arrivalTerminal: String? = nil,
+        airlineName: String? = nil,
+        airlineCode: String? = nil,
+        flightNumber: String? = nil,
         isAllDay: Bool = false,
         note: String? = nil,
         location: String? = nil,
@@ -88,6 +94,9 @@ final class EventModel {
         self.toCity = toCity
         self.departureTerminal = departureTerminal
         self.arrivalTerminal = arrivalTerminal
+        self.airlineName = airlineName
+        self.airlineCode = airlineCode
+        self.flightNumber = flightNumber
         self.isAllDay = isAllDay
         self.note = note
         self.location = location

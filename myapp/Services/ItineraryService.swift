@@ -76,7 +76,10 @@ struct ItineraryService {
                 toCity: booking.toCity.name,
                 departureTerminal: booking.departureTerminal,
                 arrivalTerminal: booking.arrivalTerminal,
-                note: "Reservation booking details\nPNR: \(pnr)\nDeparture: \(booking.departureTerminal)\nArrival: \(booking.arrivalTerminal)\nDeep link: mmyt://mytrips/flightdetails/\(pnr)",
+                airlineName: booking.airlineName,
+                airlineCode: booking.airlineCode,
+                flightNumber: booking.flightNumber,
+                note: "Reservation booking details\nPNR: \(pnr)\nAirline: \(booking.airlineName) (\(booking.airlineCode))\nFlight: \(booking.flightNumber)\nDeparture: \(booking.departureTerminal)\nArrival: \(booking.arrivalTerminal)\nDeep link: mmyt://mytrips/flightdetails/\(pnr)",
                 calendar: calendarModel
             )
         }

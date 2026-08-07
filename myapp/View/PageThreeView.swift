@@ -41,6 +41,16 @@ struct PageThreeView: View {
                             Text(arrivalTerminal)
                         }
                     }
+                    if let airlineName = event.airlineName {
+                        LabeledContent("Airline") {
+                            Text(airlineName)
+                        }
+                    }
+                    if let flightNumber = event.flightNumber {
+                        LabeledContent("Flight number") {
+                            Text(flightNumber)
+                        }
+                    }
                     LabeledContent("Calendar") {
                         Text(event.calendar.title)
                     }
