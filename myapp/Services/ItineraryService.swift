@@ -70,7 +70,7 @@ struct ItineraryService {
         
         if let calendarModel = calendarModels?.first {
             _ = try? calendarManager.createEvent(
-                title: "Upcoming Flight \(booking.fromCity.name) → \(booking.toCity.name)",
+                title: "\(booking.fromCity.name) → \(booking.toCity.name)", // TODO:- HARSH test this
                 startDate: booking.departureDate,
                 endDate: booking.landingDate,
                 fromCity: booking.fromCity.name,

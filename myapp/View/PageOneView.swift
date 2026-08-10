@@ -109,7 +109,7 @@ struct PageOneView: View {
                 DatePicker(
                     "Boarding time",
                     selection: $boardingTime,
-                    displayedComponents: .hourAndMinute
+                    displayedComponents: [.date, .hourAndMinute]
                 )
 
                 TextField("Boarding gate", value: $boardingGate, format: .number)

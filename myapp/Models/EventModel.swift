@@ -26,6 +26,13 @@ final class EventModel {
     var title: String
     var startDate: Date
     var endDate: Date?
+    var isAllDay: Bool
+    var note: String?
+    var location: String?
+    var locationLatitude: Double?
+    var locationLongitude: Double?
+    var isFavorite: Bool
+
     var fromCity: String?
     var toCity: String?
     var departureTerminal: String?
@@ -36,12 +43,6 @@ final class EventModel {
     var bookingID: String?
     var boardingTime: Date?
     var boardingGate: Int?
-    var isAllDay: Bool
-    var note: String?
-    var location: String?
-    var locationLatitude: Double?
-    var locationLongitude: Double?
-    var isFavorite: Bool
 
     /// The recurrence frequency for repeating events.
     var recurrenceFrequency: String?
