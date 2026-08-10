@@ -6,28 +6,28 @@
 //
 
 import SwiftUI
-
-struct IntentFlightView: View {
-    let itineraryText: String?
-    let lob: Lob
-    
-    var body: some View {
-        VStack {
-            HStack {
-                VStack {
-                    Text(lob.text)
-                        .font(.headline)
-                    if let itineraryText = itineraryText {
-                        Text(itineraryText)
-                            .font(.subheadline)
-                    }
-                }
-                lob.img
-            }
-        }
-    }
-}
-
+//
+//struct IntentFlightView: View {
+//    let itineraryText: String?
+//    let lob: Lob
+//    
+//    var body: some View {
+//        VStack {
+//            HStack {
+//                VStack {
+//                    Text(lob.text)
+//                        .font(.headline)
+//                    if let itineraryText = itineraryText {
+//                        Text(itineraryText)
+//                            .font(.subheadline)
+//                    }
+//                }
+//                lob.img
+//            }
+//        }
+//    }
+//}
+//
 enum Lob {
     case Flight
     case Hotel
