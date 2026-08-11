@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct ItineraryService {
     static let showLatestBookingKey = "shouldShowLatestBooking"
@@ -133,6 +134,29 @@ struct ItineraryService {
                 ?? UserDefaults.standard.string(forKey: "lastItineraryQuery")
             debugPrint(string)
             return (string, lob)
+        }
+    }
+}
+
+enum Lob {
+    case Flight
+    case Hotel
+    
+    var img: Image {
+        switch self {
+            case .Flight:
+            return Image(systemName: "airplane")
+        case .Hotel:
+            return Image(systemName: "house.fill")
+        }
+    }
+    
+    var text: String {
+        switch self {
+        case .Flight:
+            return "Your upcoming Flight info"
+        case .Hotel:
+            return "Your upcoming Hotel reservation"
         }
     }
 }
