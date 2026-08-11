@@ -12,8 +12,7 @@ enum NavigationPage: Hashable {
     
     
     init() {
-        let manager = CalendarManager.shared
-        AppDependencyManager.shared.add(dependency: manager)
+
     }
     var body: some Scene {
         WindowGroup {
@@ -22,7 +21,6 @@ enum NavigationPage: Hashable {
 //                    await FlightBookingIndexer.reindexSavedBooking()
 //                }
         }
-        .modelContainer(CalendarManager.shared.modelContainer)
     }
 }
 
@@ -31,6 +29,11 @@ struct ContentView: View {
     @State private var navigationPath: [NavigationPage] = []
     let viewModel = ItineraryViewModel()
     @State private var navigation = NavigationManager.shared
+    
+    init() {
+        let manager = CalendarManager.shared
+        AppDependencyManager.shared.add(dependency: manager)
+    }
 
     var body: some View {
         NavigationStack(path: $navigationPath) {
@@ -71,6 +74,7 @@ struct ContentView: View {
                 }
             }
         }
+        .modelContainer(CalendarManager.shared.modelContainer)
         .onAppear {
             openSelectedEventIfNeeded()
         }
