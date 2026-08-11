@@ -27,7 +27,7 @@ enum NavigationPage: Hashable {
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var navigationPath: [NavigationPage] = []
-    let viewModel = ItineraryViewModel()
+//    let viewModel = ItineraryViewModel()
     @State private var navigation = NavigationManager.shared
     
     init() {
@@ -39,7 +39,7 @@ struct ContentView: View {
         NavigationStack(path: $navigationPath) {
             VStack(spacing: 20) {
                 Button("Fetch") {
-                    viewModel.setItineraries()
+//                    viewModel.setItineraries()
                 }
                 .buttonStyle(.borderedProminent)
 
